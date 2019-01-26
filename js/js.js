@@ -271,7 +271,7 @@ function vistaInicio(){
                                                 botonRegistro.classList.add("btn-outline-secondary");
                                                 var txtRegistro=document.createTextNode("Registro");
                                                 botonRegistro.appendChild(txtRegistro);
-                                                botonRegistro.addEventListener("click",function(){registroEmpresa()});
+                                                botonRegistro.addEventListener("click",function(){formularioRegistroEmpresa()});
                                             parrafoSinCuenta.appendChild(botonRegistro);
 
                                             //parte alumno
@@ -784,7 +784,7 @@ function formularioRegistroAlumnoV2(datos){
                                             inputCheck.classList.add("form-check-input");
                                             inputCheck.type="checkbox";
                                             inputCheck.id="viajar";
-                                            input.setAttribute("checked","");
+                                            inputCheck.setAttribute("checked","");
                                             labelCheck.appendChild(inputCheck);
                                         var txtLabel=document.createTextNode("Disponibilidad para viajar");
                                         labelCheck.appendChild(txtLabel);
@@ -804,7 +804,7 @@ function formularioRegistroAlumnoV2(datos){
                                             inputCheck.classList.add("form-check-input");
                                             inputCheck.type="checkbox";
                                             inputCheck.id="residencia";
-                                            input.setAttribute("checked","");
+                                            inputCheck.setAttribute("checked","");
                                             labelCheck.appendChild(inputCheck);
                                         var txtLabel=document.createTextNode("Disponibilidad para cambio de residencia");
                                         labelCheck.appendChild(txtLabel);
@@ -824,7 +824,7 @@ function formularioRegistroAlumnoV2(datos){
                                         inputCheck.classList.add("form-check-input");
                                         inputCheck.type="checkbox";
                                         inputCheck.id="permanente";
-                                        input.setAttribute("checked","");
+                                        inputCheck.setAttribute("checked",""); //estaba input como var
                                         labelCheck.appendChild(inputCheck);
                                     var txtLabel=document.createTextNode("Disponibilidad para trabajo permanente");
                                     labelCheck.appendChild(txtLabel);

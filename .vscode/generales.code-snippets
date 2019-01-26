@@ -48,5 +48,12 @@
 			"$1.addEventListener('$2',function(){$3});"
 		],
 		"description": "añadir evento"
+	},"Print to console 7": {
+		"scope": "javascript,typescript",
+		"prefix": "gbis",
+		"body": [
+			"document.getElementById('$1');"
+		],
+		"description": "get elemento"
 	}
 }
