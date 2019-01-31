@@ -64,6 +64,7 @@ function borrarTodo(){
     }
 }
 
+var contContraseña=1;
 function vistaInicio(){
     //funcion para pintar la interfaz de inicio general
     var principal=document.getElementById("principal");
@@ -247,21 +248,25 @@ function vistaInicio(){
                                             var label=document.createElement("label");
                                             label.for="Contraseña";
                                                 var labelTxt=document.createTextNode("Contraseña");
+                                                
                                             label.appendChild(labelTxt);
                                             divForm1.appendChild(label);
                                                 var input=document.createElement("input");
                                                     input.type="password";
                                                     input.classList.add("form-control");
-                                                    input.id="contrasena";
+                                                    input.id="contrasena"+contContraseña;
+                                                    contContraseña++;
                                                     input.placeholder="Contraseña";
                                             divForm1.appendChild(input);
                                         var botonEnvio=document.createElement("button");
-                                        
+                                         botonEnvio.addEventListener('click',function(){loginEmpresa()});
+                                         botonEnvio.type="button";
                                             botonEnvio.classList.add("btn");
                                             botonEnvio.classList.add("btn-secondary");
                                         fieldset.appendChild(botonEnvio);
                                             var textoBtn=document.createTextNode("Enviar");
                                             botonEnvio.appendChild(textoBtn);
+                                           
                                         var parrafoSinCuenta=document.createElement("p");
                                         fieldset.appendChild(parrafoSinCuenta);
                                             var txtSinCuenta=document.createTextNode("¿No tienes cuenta?¡Regístrate! ");
@@ -317,9 +322,10 @@ function vistaInicio(){
                                                     input.placeholder="Contraseña";
                                             divForm1.appendChild(input);
                                         var botonEnvio=document.createElement("button");
-                                        
+                                            botonEnvio.addEventListener('click',function(){loginAlumno()});
                                             botonEnvio.classList.add("btn");
                                             botonEnvio.classList.add("btn-secondary");
+                                            botonEnvio.type="button";
                                         fieldset.appendChild(botonEnvio);
                                             var textoBtn=document.createTextNode("Enviar");
                                             botonEnvio.appendChild(textoBtn);
@@ -373,7 +379,7 @@ function vistaInicio(){
                                             var input=document.createElement("input");
                                                 input.type="password";
                                                 input.classList.add("form-control");
-                                                input.id="contrasena";
+                                                input.id="contrasenaAdmin";
                                                 input.placeholder="Contraseña";
                                         divForm1.appendChild(input);
                                     var botonEnvio=document.createElement("button");
@@ -1344,71 +1350,41 @@ function alerta(texto,color){
         return div;
 }
 
-//pasada a js propio de empesa!!!!
+var alumno=new Object();
+function loginAlumno(){
+    crearObjetoAjax();
+    
+    var login=new Object();
+    login.contrasena=document.getElementById('contrasena').value;
+    login.dni=document.getElementById('nif').value;
+    var jsonObj = JSON.stringify(login);
+    
+    xmlhttp.open("GET", "php/loginAlumno.php?obj=" + jsonObj, true);
+    xmlhttp.send();
 
-// function registroEmpresa(){
-//     borrarTodo();
-//     //creamos el formulario para registrar
-//         //rellenar la interfaz de registro
-//         var padre=document.getElementById("principal");
-//             var container=document.createElement("div");
-//                 container.classList.add("container");
-//                 container.classList.add("d-flex");
-//                 container.classList.add("flex-column");
-//                 container.classList.add("align-items-center");
-//                 container.style="max-width:85%;min-width:85%";
-                
+	xmlhttp.onreadystatechange = function () {
+        //alert("elert en onready");
+        
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            //console.log(xmlhttp.responseText);
+            var datos = JSON.parse(xmlhttp.responseText);
+            //console.table(datos);
+            if(datos !== -1){
+                alumno=datos;
+                console.log(alumno);
+                if(datos["contrasenaTemporal"] === "S"){
+                    //redirigir formulario rellena temporal
+                    cambiarContrasenaTemporalFormulario("alumno",alumno);
+                }else{
+                    alert("no tiene temporal todo correcto");
+                    solicitarDatosAlumnos();
+                }
+            }else{
+                alert("Error login");
+            }
 
-//             padre.appendChild(container);
-//                 var row=document.createElement("div");
-//                 row.classList.add("row");
-//                 row.classList.add("justify-content-center");
-//                 container.appendChild(row);
-//                     var col=document.createElement("col");
-//                         col.classList.add("col");
-//                     row.appendChild(col);
             
+        }
+    }
 
-//             var form=document.createElement("form");
-//                 col.appendChild(form);
-//                     var fieldset=document.createElement("fieldset");
-//                     form.appendChild(fieldset);
-//                         var divForm1=document.createElement("div");
-//                             divForm1.classList.add("form-group");
-//                         fieldset.appendChild(divForm1);
-//                             var label=document.createElement("label");
-//                             label.for="nombre";
-//                                 var labelTxt=document.createTextNode("Nombre");
-//                             label.appendChild(labelTxt);
-//                             divForm1.appendChild(label);
-//                                 var input=document.createElement("input");
-//                                     input.type="text";
-//                                     input.classList.add("form-control");
-//                                     input.id="nombre";
-//                                     input.placeholder="Nombre";
-//                             divForm1.appendChild(input);
-                            
-//                             var label=document.createElement("label");
-//                             label.for="cif";
-//                                 var labelTxt=document.createTextNode("CIF");
-//                             label.appendChild(labelTxt);
-//                             divForm1.appendChild(label);
-//                                 var input=document.createElement("input");
-//                                     input.type="text";
-//                                     input.classList.add("form-control");
-//                                     input.id="cif";
-//                                     input.placeholder="CIF";
-//                             divForm1.appendChild(input);
-
-                            
-                                        
-
-//                 var botonEnvio=document.createElement("button");
-//                     botonEnvio.classList.add("btn");
-//                     botonEnvio.classList.add("btn-block");
-//                     botonEnvio.classList.add("btn-secondary");
-//                     var botontxt=document.createTextNode("Enviar");
-//                     botonEnvio.appendChild(botontxt);
-//                     botonEnvio.type="button";
-//                 form.appendChild(botonEnvio);
-// }
+}

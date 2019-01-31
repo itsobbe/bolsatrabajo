@@ -55,5 +55,19 @@
 			"document.getElementById('$1');"
 		],
 		"description": "get elemento"
+	},"Print to console 8": {
+		"scope": "javascript,typescript",
+		"prefix": "ifa",
+		"body": [
+			"if($1){$2}"
+		],
+		"description": "get elemento"
+	},"Print to console 9": {
+		"scope": "javascript,typescript",
+		"prefix": "gbisv",
+		"body": [
+			"document.getElementById('$1').value;"
+		],
+		"description": "get elemento"
 	}
 }

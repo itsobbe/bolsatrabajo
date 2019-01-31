@@ -3,9 +3,10 @@ include_once 'conexion.php';
 
 $alumno= json_decode($_REQUEST["obj"]);
 // print_r($alumno);
-
+    include_once 'generaContrasena.php';
+    $contra=generar(10);
         //insertamos alumno
-    $orden1="INSERT INTO alumnobolsa values(null,'$alumno->nombre','$alumno->apellido','$alumno->direccion','$alumno->email','$alumno->nacimiento','$alumno->viajar','$alumno->residir',null,'$alumno->nif','$alumno->permanente')";
+    $orden1="INSERT INTO alumnobolsa values(null,'$alumno->nombre','$alumno->apellido','$alumno->direccion','$alumno->email','$alumno->nacimiento','$alumno->viajar','$alumno->residir',$contra,'$alumno->nif','$alumno->permanente','S')";
     $resultado=$conexion->query($orden1);
 
         //insertamos estudios
@@ -33,6 +34,11 @@ $alumno= json_decode($_REQUEST["obj"]);
         $orden="INSERT INTO experiencia VALUES(null,'$alumno->nif','$key[0]','$key[1]','$key[2]')";
         $resultado=$conexion->query($orden);
     }
+
+    
+    include_once 'enviarCorreo.php';
+    $msg="Su contraseña temporal es: $contra";
+    envia($alumno->email,"Cotraseña temporal",$msg);
 
     echo json_encode($conexion->affected_rows);
 

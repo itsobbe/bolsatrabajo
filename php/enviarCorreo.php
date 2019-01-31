@@ -1,40 +1,14 @@
 <?php
-echo "hola";
-//php code to send mail, 
-//author : idrish laxmidhar
-//Use this code to send a test mail from your localhost.
- 
-$to = "oboujloud@gmail.com";
-$subject = "Hi!";
-$body="test".PHP_EOL;
-$body.="Hello World. If all went well then you can see this mail in your Inbox".PHP_EOL;
-$body.="Regards".PHP_EOL;
-$body.="Idrish Laxmidhar".PHP_EOL;
-$body.="http://i-tech-life.blogspot.com".PHP_EOL;
- 
-$headers = "From: local-owner@localhost.com"; 
-mail("oboujloud@gmail.com","Success","Send mail from localhost using PHP")
-// if (mail("oboujloud@gmail.com","Success","Send mail from localhost using PHP")) {
-// echo("Message successfully sent!");
-// } else {
-// echo("Message delivery failed...");
-// }
+function envia($to,$subject,$msg){
+    $fromEmail="elbazar@gmail.com";
+    $fromName="Bolsawa";
+    $headers = 'MIME-Version: 1.0' . "\r\n";
+    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    $headers .= 'From:  ' . $fromName . ' <' . $fromEmail .'>' . " \r\n" .
+                'Reply-To: '.  $fromEmail . "\r\n" .
+                'X-Mailer: PHP/' . phpversion();
 
-// print_r("estoy en mail");
-//     $to = "oboujloud@gmail.com";
-//     $subject = "My pruebaa";
-//     $txt = "Ultima prueba bro";
-//     // $headers = "From: webmaster@example.com" . "\r\n" .
-//     // "CC: somebodyelse@example.com";
-
-//     if(mail($to,$subject,$txt)){
-//         echo("Message successfully sent!");
-//     }else {echo("Message nooo");}
-//     echo "sdsdsd";
-
-   
-
-
-
+   return mail($to,$subject,$msg,$headers);
+}
 
 ?>

@@ -9,9 +9,13 @@ function crearObjetoAjax(){
     }
 }
 function consultaRespuesta(){
+    crearObjetoAjax();
     //plantilla ajax
     var jsonObj = JSON.stringify();
     
+    xmlhttp.open("GET", "php/consultaTraeEncuesta.php?obj=" + jsonObj, true);
+    xmlhttp.send();
+
 	xmlhttp.onreadystatechange = function () {
         //alert("elert en onready");
         
@@ -26,8 +30,7 @@ function consultaRespuesta(){
         }
     }
 
-    xmlhttp.open("GET", "PHP/consultaTraeEncuesta.php?id=" + final, true);
-    xmlhttp.send();
+    
 }
 
 function formularioRegistroEmpresa(){
@@ -120,13 +123,14 @@ function formularioRegistroEmpresa(){
                     botonEnvio.appendChild(botontxt);
                     botonEnvio.type="button";
                     //botonEnvio.addEventListener('click',function(){registroEmpresa()});
-                    botonEnvio.addEventListener('click',function(){solicitarDatosAlumnos()});
+                    botonEnvio.addEventListener('click',function(){registroEmpresa()});
                 form.appendChild(botonEnvio);
 }
 
 
 function registroEmpresa(){
-
+        //me ha ido sin esto
+        crearObjetoAjax();  
 
         var empresa=new Object();
             empresa.nombre=document.getElementById('nombre').value;
@@ -138,6 +142,10 @@ function registroEmpresa(){
         var final = JSON.stringify(empresa);
         
         console.log(final);
+
+        xmlhttp.open("GET", "PHP/registroEmpresa.php?obj=" + final, true);
+        xmlhttp.send();
+
         xmlhttp.onreadystatechange = function () {
             //alert("elert en onready");
             
@@ -148,12 +156,19 @@ function registroEmpresa(){
     
                 var padre=document.getElementById("principal");
     
+                if(datos === 1){
+                    //alert("guay");
+                    alert("Registrado"); 
+                    setTimeout(function(){borrarTodo();vistaInicio()}, 3000);
+                }else if(datos === -1){
+                    alert("Error, intentelo nuevamente"); 
+                    setTimeout(function(){ vistaInicio()}, 3000);
+                }
                 
             }
         }
     
-        xmlhttp.open("GET", "PHP/registroEmpresa.php?obj=" + final, true);
-        xmlhttp.send();
+        
 }
 
 function solicitarDatosAlumnos(){
@@ -376,8 +391,169 @@ function buscarAlumnos(){
     xmlhttp.open("GET", "PHP/consultsaTraeEncuesta.php?obj=" + final, true);
     xmlhttp.send();
 }
+//guardar el obj empresa logeado
+var empresa=new Object();
+function loginEmpresa(){
 
+    var usuario=new Object();
+    usuario.contrasena=document.getElementById('contrasena1').value;
+    usuario.cif=document.getElementById('cif').value;
+    var jsonObj = JSON.stringify(usuario);
+    
+    xmlhttp.open("GET", "php/loginEmpresa.php?obj=" + jsonObj, true);
+    xmlhttp.send();
 
+	xmlhttp.onreadystatechange = function () {
+        //alert("elert en onready");
+        
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            //console.log(xmlhttp.responseText);
+            var datos = JSON.parse(xmlhttp.responseText);
+            //console.table(datos);
+            //console.log(datos);
 
+            var padre=document.getElementById("principal");
+            //console.log(datos["contrasenaTemporal"]);
+            if(datos !== -1){
+                empresa=datos;
+                console.log(empresa);
+                if(datos["contrasenaTemporal"] === "S"){
+                    //redirigir formulario rellena temporal
+                    cambiarContrasenaTemporalFormulario("empresa",empresa);
+                }else{
+                    solicitarDatosAlumnos();
+                }
+            }else{
+                alert("Error");
+            }
+
+            
+        }
+    }
+}
+
+function cambiarContrasenaTemporalFormulario(quien,datos){
+    borrarTodo();
+
+    var padre=document.getElementById("principal");
+    var container=document.createElement("div");
+        container.classList.add("container");
+        container.classList.add("d-flex");
+        container.classList.add("flex-column");
+        container.classList.add("align-items-center");
+        container.style="max-width:85%;min-width:85%";
+        
+
+    padre.appendChild(container);
+        var row=document.createElement("div");
+        row.classList.add("row");
+        row.classList.add("justify-content-center");
+        container.appendChild(row);
+            var col=document.createElement("col");
+                col.classList.add("col");
+            row.appendChild(col);
+    
+    //formulario
+    var form=document.createElement("form");
+        col.appendChild(form);
+            var fieldset=document.createElement("fieldset");
+            form.appendChild(fieldset);
+                var divForm1=document.createElement("div");
+                    divForm1.classList.add("form-group");
+                fieldset.appendChild(divForm1);
+
+                //contraseña 2
+                    var label=document.createElement("label");
+                    label.for="contrasena1";
+                        var labelTxt=document.createTextNode("Contraseña nueva");
+                    label.appendChild(labelTxt);
+                    divForm1.appendChild(label);
+                        var input=document.createElement("input");
+                            input.type="password";
+                            input.classList.add("form-control");
+                            input.id="contrasena1";
+                            input.placeholder="Escriba la contraseña";
+                    divForm1.appendChild(input);
+                //contraseña 2
+                    var label=document.createElement("label");
+                    label.for="contrasena2";
+                        var labelTxt=document.createTextNode("Contraseña nueva");
+                    label.appendChild(labelTxt);
+                    divForm1.appendChild(label);
+                        var input=document.createElement("input");
+                            input.type="password";
+                            input.classList.add("form-control");
+                            input.id="contrasena2";
+                            input.placeholder="Repita la misma";
+                    divForm1.appendChild(input);        
+
+        var botonEnvio=document.createElement("button");
+            botonEnvio.classList.add("btn");
+            botonEnvio.classList.add("btn-block");
+            botonEnvio.classList.add("btn-secondary");
+            var botontxt=document.createTextNode("Enviar");
+            botonEnvio.appendChild(botontxt);
+            botonEnvio.type="button";
+            //botonEnvio.addEventListener('click',function(){registroEmpresa()});
+             botonEnvio.addEventListener('click',function(){cambiarContrasenaTemporal(quien,datos);});
+
+            
+        form.appendChild(botonEnvio);
+}
+
+function cambiarContrasenaTemporal(quien,datos){
+    crearObjetoAjax();
+
+    var obj=new Object();
+    obj=datos;
+    var contraseña1=document.getElementById('contrasena1').value;
+    var contraseña2=document.getElementById('contrasena2').value;
+
+    if(contraseña1 === contraseña2){
+    
+    obj.contrasena=contraseña1;
+    var who=quien;
+    var q=JSON.stringify(who);
+    var jsonObj = JSON.stringify(obj);
+    console.log("estoy en ajax cambiar"+quien);
+
+    xmlhttp.open("GET", "php/cambiarContrasena.php?id="+q+"&obj="+jsonObj, true);
+    xmlhttp.send();
+
+	xmlhttp.onreadystatechange = function () {
+        //alert("elert en onready");
+        
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            //console.log(xmlhttp.responseText);
+            var datos = JSON.parse(xmlhttp.responseText);
+            //console.table(datos);
+
+            var padre=document.getElementById("principal");
+
+            if(quien === "empresa"){
+                if(datos === 1){
+                    //redirigimos a interfaz
+                    solicitarDatosAlumnos();
+                }else{
+                    //alerta problema
+                    alert("problema");                
+                }
+            }else if(quien === "alumno"){
+                if(datos === 1){
+                    //redirigimos a interfaz
+                    alert("eres alumno");
+                    solicitarDatosAlumnos();
+                }else{
+                    //alerta problema
+                    alert("problema");                
+                }
+            }
+            
+            
+            
+            }
+        }
+    }
+}
 
 
