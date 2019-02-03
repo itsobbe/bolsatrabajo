@@ -223,21 +223,21 @@ function solicitarDatosAlumnos(){
                             input.placeholder="Meses";
                         label.appendChild(input);
                         //
-                        var col=document.createElement('div');
-                        col.classList.add('col');
-                    row.appendChild(col);
-                        var label=document.createElement("label");
-                            label.for="direccion";
-                                var labelTxt=document.createTextNode("Experiencia hasta");
-                            label.appendChild(labelTxt);
-                            col.appendChild(label);
-                        var input=document.createElement("input");
-                            input.type="text";
-                            input.classList.add("form-control");
-                            input.id="experienciahasta";
-                            input.value="";
-                            input.placeholder="Meses";
-                        label.appendChild(input);
+                    //     var col=document.createElement('div');
+                    //     col.classList.add('col');
+                    // row.appendChild(col);
+                    //     var label=document.createElement("label");
+                    //         label.for="direccion";
+                    //             var labelTxt=document.createTextNode("Experiencia hasta");
+                    //         label.appendChild(labelTxt);
+                    //         col.appendChild(label);
+                    //     var input=document.createElement("input");
+                    //         input.type="text";
+                    //         input.classList.add("form-control");
+                    //         input.id="experienciahasta";
+                    //         input.value="";
+                    //         input.placeholder="Meses";
+                    //     label.appendChild(input);
 
 
 
@@ -330,7 +330,7 @@ function solicitarDatosAlumnos(){
 
 
 function traerPerfil(){
-
+    //trae los estudios disponibles
 
     var jsonObj = JSON.stringify();
     
@@ -361,35 +361,51 @@ function traerPerfil(){
 }
 
 function buscarAlumnos(){
-    var alumno=new Object();
-        alumno.perfil=document.getElementById('perfil').value;
-        alumno.experienciaDesde=document.getElementById('experienciadesde').value;
-        alumno.experienciaHasta=document.getElementById('experienciahasta').value;
-        alumno.residir=document.getElementById('residencia').checked;
-        alumno.viajar=document.getElementById('viajar').checked;
-        alumno.permanente=document.getElementById('permanente').checked;
+    alert("estoy en busca");
+    //funcion
+    var alumnoobj=new Object();
+        alumnoobj.perfil=document.getElementById('perfil').value;
+        alumnoobj.experiencia=document.getElementById('experienciadesde').value;
+        var residencia=document.getElementById('residencia').checked;
+        if(residencia === true){
+            alumnoobj.residir="S";
+        }else alumnoobj.residir="N";
+        var viaje=document.getElementById('viajar').checked;
+        if(viaje === true){
+            alumnoobj.viajar="S";
+        }else alumnoobj.viajar="N";
+        var permanencia=document.getElementById('permanente').checked;
+        if(permanencia === true){
+            alumnoobj.permanente="S";
+        }else alumnoobj.permanente="N";
 
 
-    var final = JSON.stringify(alumno);
-
-        console.log(alumno);
+    var final = JSON.stringify(alumnoobj);
+     var objcif=JSON.stringify(empresa.cif)
+        console.log(final);
     
+        xmlhttp.open("GET", "PHP/consultaBuscaAlumnos.php?obj="+final+"&cif="+objcif, true);
+        xmlhttp.send();
+
 	xmlhttp.onreadystatechange = function () {
         //alert("elert en onready");
         
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             //console.log(xmlhttp.responseText);
             var datos = JSON.parse(xmlhttp.responseText);
-            //console.table(datos);
-
+            console.table(datos);
             var padre=document.getElementById("principal");
+                var existetabla=document.getElementById('tablaDinamica');
+                if(existetabla){
+                    existetabla.remove();
+                }
+                padre.appendChild(creaTabla(datos));
 
             
         }
     }
 
-    xmlhttp.open("GET", "PHP/consultsaTraeEncuesta.php?obj=" + final, true);
-    xmlhttp.send();
+    
 }
 //guardar el obj empresa logeado
 var empresa=new Object();
@@ -556,4 +572,28 @@ function cambiarContrasenaTemporal(quien,datos){
     }
 }
 
+function creaTabla(datos){
+    var tabla=document.createElement("table");
+        tabla.id="tablaDinamica";
+        var count = Object.keys(datos).length;  //devuelve el numero de filas
+        var co= Object.keys(datos[0]).length;   //devuelve el numero de propiedades de fila 0 con lo cual de todas
+        console.log(count + co);
+        for(var i=0; i < count+1;i++){
+            var tr=tabla.insertRow();
+            for(var j =0; j < co; j++){
+                var td=tr.insertCell();
+                if(i===0){ //para que solo se pongan en la primera fila
+                    //con esto saco el nombre de las columnas de la fila 0 y segun el valor de j es decir segun donde este pues pongo la que toque
+                    td.appendChild(document.createTextNode(Object.keys(datos[0])[j]));
+                    td.style="background-color:#b7c9e8";
+                }else {
+                    //con esto saco automaticamente los valores segun en la fila donde este ya que la variable r tiene el string de la columna
+                    var r=(Object.keys(datos[0])[j]);
+                    
+                    td.appendChild(document.createTextNode(datos[0][r]));
+                }
+            }
+        }
+            return tabla;
+}
 

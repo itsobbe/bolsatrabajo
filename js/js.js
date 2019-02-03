@@ -473,7 +473,12 @@ function buscarAlumno(){
                     
                 }else{
                     var padre=document.getElementById("principal");
-                        padre.appendChild(alerta("Error: no encontrado","danger"));
+                        var alertaa=document.getElementById('alertaDinamica');
+                       
+                        if(alertaa == null){
+                            padre.appendChild(alerta("Error: no encontrado o ya registrado","danger"));
+                        }
+                       
                 }
             }
         }
@@ -1345,6 +1350,7 @@ function alerta(texto,color){
         div.classList.add("w-50");
         div.classList.add("mx-auto");
         div.classList.add("m-2");
+        div.id="alertaDinamica";
         div.appendChild(document.createTextNode(texto));
 
         return div;
@@ -1377,7 +1383,7 @@ function loginAlumno(){
                     cambiarContrasenaTemporalFormulario("alumno",alumno);
                 }else{
                     alert("no tiene temporal todo correcto");
-                    solicitarDatosAlumnos();
+                    vistaAlumno();
                 }
             }else{
                 alert("Error login");
@@ -1387,4 +1393,26 @@ function loginAlumno(){
         }
     }
 
+}
+
+function vistaAlumno(){
+    //vista que ve el alumno cuando logueado
+    borrarTodo();
+
+    //idea llamar al formulario registro con titulo modificar datos
+    //en funcion formulario poner if y mandar a traves de funcion que tipo de form quiero
+    //si registro boton lleva a ajax insert... si modificar ajax lleva a modificar
+    //problema: hay que utilizar otra funcion que cargue los estudios que ya se tienen en select estudios elegidos
+    //crear tanto input curso exp como tenga
+}
+
+function traeEstudiosElegidos(){
+    //funcion que carga en select estudios elegidos los que ya tiene el alumno
+}
+function traeCursosElegidos(){
+    //trae cursos alumn bd
+}
+
+function traeExperiencia(){
+    //trae input exp
 }
