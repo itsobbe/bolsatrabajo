@@ -15,7 +15,7 @@ include_once 'conexion.php';
     //habria que componer un obj con arrays de cursos, experiencias, estudios...
     //$orden.="AND ";
     
-    $orden="select * from alumnobolsa a, experiencia e, estudioalumno ea,estudiocentro ec where a.dni=e.dniAlumno AND ea.dniAlumno=a.dni AND ec.idEstudio=ea.idCentroEstudio";
+    $orden="select a.nombre AS Nombre,a.apellido AS Apellidos,a.dirección AS Dirección,a.dni AS DNI,a.correo AS Email,a.fechaNac AS 'Fecha nacimiento',a.cambiarResidencia AS 'Cambio residencia',a.permanente AS 'Disponibillidad permanente',a.viajar AS 'Viajar' from alumnobolsa a, experiencia e, estudioalumno ea,estudiocentro ec where a.dni=e.dniAlumno AND ea.dniAlumno=a.dni AND ec.idEstudio=ea.idCentroEstudio";
 
     $orden=$orden . " AND ec.nombre='".$alumno->perfil."' ";
     $orden= $orden . " AND e.tiempo >= '".$alumno->experiencia."' ";

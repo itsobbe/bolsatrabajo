@@ -361,7 +361,6 @@ function traerPerfil(){
 }
 
 function buscarAlumnos(){
-    alert("estoy en busca");
     //funcion
     var alumnoobj=new Object();
         alumnoobj.perfil=document.getElementById('perfil').value;

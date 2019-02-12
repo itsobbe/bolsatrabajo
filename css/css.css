@@ -1,0 +1,19 @@
+.nav-link.active{
+    background-color: #78c2ad6e !important;
+    color:#f3969a !important;
+}  
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px; 
+}
+body {
+    margin: 0;
+    margin-bottom: 60px;
+  }
+  html {
+    min-height: 100%;
+    position: relative;
+  }

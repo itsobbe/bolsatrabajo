@@ -38,6 +38,9 @@ function consultaRespuesta(){
     //plantilla ajax
     var jsonObj = JSON.stringify();
     
+    xmlhttp.open("GET", "PHP/consultaTraeEncuesta.php?id=" + final, true);
+    xmlhttp.send();
+
 	xmlhttp.onreadystatechange = function () {
         //alert("elert en onready");
         
@@ -52,8 +55,7 @@ function consultaRespuesta(){
         }
     }
 
-    xmlhttp.open("GET", "PHP/consultaTraeEncuesta.php?id=" + final, true);
-    xmlhttp.send();
+
 }
 
 function borrarTodo(){
@@ -186,6 +188,7 @@ function vistaInicio(){
                             listaEnlaces.appendChild(liEmpresa);
                                 var enlaceLiEmpresa=document.createElement("a");
                                     enlaceLiEmpresa.classList.add("nav-link");
+                                    enlaceLiEmpresa.classList.add('active');
                                     enlaceLiEmpresa.setAttribute("data-toggle","tab");
                                     enlaceLiEmpresa.href="#empresa";
                                         var enlaceLiEmpresaTexto=document.createTextNode(inicio.formulario.tipo1);
@@ -226,6 +229,7 @@ function vistaInicio(){
                                 var form=document.createElement("form");
                                 divContenido1.appendChild(form);
                                     var fieldset=document.createElement("fieldset");
+                                    fieldset.style="background-color: #78c2ad6e !important;"
                                     form.appendChild(fieldset);
                                         var divForm1=document.createElement("div");
                                             divForm1.classList.add("form-group");
@@ -291,6 +295,7 @@ function vistaInicio(){
                                 var form=document.createElement("form");
                                 divContenido1.appendChild(form);
                                     var fieldset=document.createElement("fieldset");
+                                    fieldset.style="background-color: #78c2ad6e !important;";
                                     form.appendChild(fieldset);
                                         var divForm1=document.createElement("div");
                                             divForm1.classList.add("form-group");
@@ -352,6 +357,7 @@ function vistaInicio(){
                             var form=document.createElement("form");
                             divContenido1.appendChild(form);
                                 var fieldset=document.createElement("fieldset");
+                                fieldset.style="background-color: #78c2ad6e !important;"
                                 form.appendChild(fieldset);
                                     var divForm1=document.createElement("div");
                                         divForm1.classList.add("form-group");
@@ -462,6 +468,9 @@ function buscarAlumno(){
 
         var jsonObj = JSON.stringify(alumno);
 
+        xmlhttp.open("GET", "php/consultaExisteAlumno.php?obj=" + jsonObj, true);0
+        xmlhttp.send();
+
         xmlhttp.onreadystatechange = function () {
             
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -483,8 +492,7 @@ function buscarAlumno(){
             }
         }
     
-        xmlhttp.open("GET", "php/consultaExisteAlumno.php?obj=" + jsonObj, true);0
-        xmlhttp.send();
+        
 }
 
 
@@ -497,6 +505,9 @@ function traerDatosAlumnoIes(nif){
 
         var jsonObj = JSON.stringify(alumno);
 
+        xmlhttp.open("GET", "php/consultaTraerDatosAlumnoIes.php?obj=" + jsonObj, true);0
+        xmlhttp.send();
+
         xmlhttp.onreadystatechange = function () {
             
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -506,8 +517,7 @@ function traerDatosAlumnoIes(nif){
             }
         }
     
-        xmlhttp.open("GET", "php/consultaTraerDatosAlumnoIes.php?obj=" + jsonObj, true);0
-        xmlhttp.send();
+        
     
 }
 
@@ -627,6 +637,8 @@ function formularioRegistroAlumno(datos){
 }
 
 function formularioRegistroAlumnoV2(datos){
+    console.log("en form 2 inicio");
+    console.log(datos);
     //funcion que pinta el formulario con todos los datos del alumno traidos de la bd
     
         //llamo a borrar todo aqui o donde la llame?
@@ -677,7 +689,10 @@ function formularioRegistroAlumnoV2(datos){
                             input.classList.add("form-control");
                             input.id="nif";
                             input.placeholder="NIF";
-                            input.value=datos[0].dni;
+                            if(datos[0] !== undefined){
+                                input.value=datos[0].dni;
+                            }else input.value=datos.dni;
+                            
                             input.setAttribute("disabled","disabled");
                         col1.appendChild(input);
                         //columna 2
@@ -694,7 +709,9 @@ function formularioRegistroAlumnoV2(datos){
                             input.type="text";
                             input.classList.add("form-control");
                             input.id="nombre";
+                            if(datos[0] !== undefined){
                             input.value=datos[0].nombre;
+                            }else input.value=datos.nombre;
                             input.placeholder="Nombre";
                         col2.appendChild(input);
 
@@ -713,7 +730,9 @@ function formularioRegistroAlumnoV2(datos){
                             input.type="text";
                             input.classList.add("form-control");
                             input.id="apellido";
+                            if(datos[0] !== undefined){
                             input.value=datos[0].apellido;
+                            }else input.value=datos.apellido;
                             input.placeholder="Apellidos";
                         col3.appendChild(input);
 
@@ -735,7 +754,9 @@ function formularioRegistroAlumnoV2(datos){
                             input.type="text";
                             input.classList.add("form-control");
                             input.id="direccion";
+                            if(datos[0] !== undefined){
                             input.value=datos[0].direccion;
+                            }else input.value=datos.dirección;
                             input.placeholder="Dirección";
                         col4.appendChild(input);
 
@@ -753,7 +774,9 @@ function formularioRegistroAlumnoV2(datos){
                             input.type="email";
                             input.classList.add("form-control");
                             input.id="email";
+                            if(datos[0] !== undefined){
                             input.value=datos[0].correo;
+                            }else input.value=datos.correo;
                             input.placeholder="E-mail";
                         col5.appendChild(input);
     
@@ -771,7 +794,9 @@ function formularioRegistroAlumnoV2(datos){
                             input.type="date";
                             input.classList.add("form-control");
                             input.id="fechaNac";
+                            if(datos[0] !== undefined){
                             input.value=datos[0].fechaNac;
+                            }else input.value=datos.fechaNac;
                             input.placeholder="Fecha nacimiento";
                         col6.appendChild(input);
 
@@ -844,8 +869,12 @@ function formularioRegistroAlumnoV2(datos){
                             tituloEstudios.appendChild(document.createTextNode("Estudios"));
                     fieldset.appendChild(tituloEstudios);
                             creaSelectEstudiosAlumno();
+                            setTimeout(function(){traeEstudiosElegidos()},1000);
+                            //Promise.all(creaSelectEstudiosAlumno()).then(function(){traeEstudiosElegidos});
                             crearInputsCursos();
                             crearInputsExperiencia();
+                            setTimeout(function(){traeCursosElegidos();},1500);
+                            setTimeout(function(){traeExperiencia();},2000);
 
             var botonEnvio=document.createElement("button");
                 botonEnvio.classList.add("btn");
@@ -857,6 +886,7 @@ function formularioRegistroAlumnoV2(datos){
                 botonEnvio.addEventListener("click",function(){registroAlumnoAJAX()});
                 botonEnvio.type="button";
             form.appendChild(botonEnvio);
+            
     }
 //para diferencias ids cursos
 var contSelectsCurso=1;
@@ -975,7 +1005,10 @@ function creaSelectEstudiosAlumno(){
             //columna 1 
             var col=document.createElement("div");
                 col.classList.add("col");
-                
+                col.classList.add('d-flex');
+                col.classList.add('flex-column');
+                col.classList.add('justify-content-center');
+                col.classList.add('align-items-center');
             row.appendChild(col);
 
                 var label=document.createElement("label");
@@ -988,6 +1021,8 @@ function creaSelectEstudiosAlumno(){
                 var select=document.createElement("select");
                     select.classList.add("custom-select");
                     select.id="selectEstudios"; //borrado + contador
+                    select.style="height:180px";
+                    select.size="2";
                 col.appendChild(select);
                     //ahora llamariamos a funcion
                     //creamos options por cada uno
@@ -998,20 +1033,24 @@ function creaSelectEstudiosAlumno(){
                     select.appendChild(option);
                     //esta funcion rellena el select
                     traeEstudios();
+                    //aquí funcion que rellena los ya elgidos en caso de que se vayan a modificar
+                    //traeEstudiosElegidos();
 
              //creamos el boton para añadir a elegidos
             var col2=document.createElement("div");
             col2.classList.add("col");
             col2.classList.add("d-flex");
             col2.classList.add("flex-column");
-            col2.classList.add("justify-content-center");
+            col2.classList.add("align-items-center");
+            col2.classList.add('justify-content-center');
         row.appendChild(col2);
             var boton=document.createElement("button")
                 boton.type="button";
                 boton.classList.add("btn");
                 boton.classList.add("btn-outline-secondary");
-                boton.classList.add("btn-block");
-                boton.appendChild(document.createTextNode("Añadir más"));
+               
+                boton.style="width:75px";
+                boton.appendChild(document.createTextNode("-->"));
                 boton.addEventListener("click",function(){copiaBorraEstudios()});
                 
             col2.appendChild(boton);
@@ -1021,8 +1060,9 @@ function creaSelectEstudiosAlumno(){
                 boton.type="button";
                 boton.classList.add("btn");
                 boton.classList.add("btn-outline-secondary");
-                boton.classList.add("btn-block");
-                boton.appendChild(document.createTextNode("Borrar "));
+                
+                boton.style="width:75px";
+                boton.appendChild(document.createTextNode("<--"));
                 boton.addEventListener("click",function(){copiaBorraElegidos()});
                 
             col2.appendChild(boton);
@@ -1039,6 +1079,8 @@ function creaSelectEstudiosAlumno(){
                 var select=document.createElement("select");
                     select.classList.add("custom-select");
                     select.id="estudiosElegidos";
+                    select.size="2";
+                    select.style="height:190px";
                     
                 col3.appendChild(select);
                     //creamos primer option
@@ -1179,6 +1221,7 @@ function copiaBorraElegidos(){
 }
 
 function traeEstudios(){
+   
     //funcion que devuelve los estudios disponibles en la bd y los mete al select
     //alert("estoy buscand estufios");
     //funcion para traer datos alumno en la bd de IES
@@ -1187,10 +1230,14 @@ function traeEstudios(){
         // alumno.nif=nif;
 
         // var jsonObj = JSON.stringify(alumno);
+        
+        xmlhttp.open("GET", "php/consultaTraeEstudiosCentro.php", true);
+        xmlhttp.send();
 
         xmlhttp.onreadystatechange = function () {
             
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                
                 var datos = JSON.parse(xmlhttp.responseText);
                 console.log(datos);
                 //var select=document.getElementById(i);
@@ -1208,13 +1255,8 @@ function traeEstudios(){
                             option.appendChild(document.createTextNode(datos[obj]["nombre"]));
                         select.appendChild(option);
                     }
-               
-                
             }
         }
-    
-        xmlhttp.open("GET", "php/consultaTraeEstudiosCentro.php", true);0
-        xmlhttp.send();
 }
 
 function registroAlumnoAJAX(){
@@ -1251,6 +1293,10 @@ function registroAlumnoAJAX(){
     //alumno.estudios=Array.from(document.getElementById("estudiosElegidos").options);
     var estudios=document.getElementById("estudiosElegidos");
     alumno.estudios=Array();
+    if(estudios.options.length === 1){
+        hecho=false;
+        alert("Debes elegir al menos un estudio");
+    }
     for(var i=0;i < estudios.options.length;i++){
         if(estudios.options[i].value != "x"){
             alumno.estudios.push(estudios.options[i].value);
@@ -1310,7 +1356,10 @@ function registroAlumnoAJAX(){
     
     if(hecho){
 
-    
+    xmlhttp.open("GET", "PHP/insertarDatosRegistroAlumno.php?obj="+ jsonObj, true);
+    /*Mandamos al PHP encargado de traer los datos, el valor de referencia */
+    xmlhttp.send();
+
     xmlhttp.onreadystatechange = function () {
         //alert("elert en onready");
 
@@ -1335,25 +1384,9 @@ function registroAlumnoAJAX(){
         }
     }
 
-    xmlhttp.open("GET", "PHP/insertarDatosRegistroAlumno.php?obj="+ jsonObj, true);
-    /*Mandamos al PHP encargado de traer los datos, el valor de referencia */
-    xmlhttp.send();
+    
 
     }
-}
-
-function alerta(texto,color){
-    //funcion que devuelve el div con alert para mostrar mensajes error exito
-    var div=document.createElement("div");
-        div.classList.add("alert");
-        div.classList.add("alert-"+color);
-        div.classList.add("w-50");
-        div.classList.add("mx-auto");
-        div.classList.add("m-2");
-        div.id="alertaDinamica";
-        div.appendChild(document.createTextNode(texto));
-
-        return div;
 }
 
 var alumno=new Object();
@@ -1404,15 +1437,125 @@ function vistaAlumno(){
     //si registro boton lleva a ajax insert... si modificar ajax lleva a modificar
     //problema: hay que utilizar otra funcion que cargue los estudios que ya se tienen en select estudios elegidos
     //crear tanto input curso exp como tenga
+    console.log("alumno bolsa");
+    console.log(alumno);
+    formularioRegistroAlumnoV2(alumno);
 }
 
 function traeEstudiosElegidos(){
+    crearObjetoAjax();
     //funcion que carga en select estudios elegidos los que ya tiene el alumno
+    
+    var obj = JSON.stringify(alumno);
+
+    xmlhttp.open("GET", "PHP/consultaEstudiosAlumno.php?obj="+obj, true);
+    xmlhttp.send();
+
+	xmlhttp.onreadystatechange = function () {
+        //alert("elert en onready");
+        
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            //console.log(xmlhttp.responseText);
+            var datos = JSON.parse(xmlhttp.responseText);
+            //console.table(datos);
+
+            var padre=document.getElementById("principal");
+            //select estudio estudiosElegidos
+            var select=document.getElementById('estudiosElegidos');
+            for(var obj in datos){
+                var option=document.createElement("option");
+                    option.value=datos[obj]["idEstudio"];
+                    option.appendChild(document.createTextNode(datos[obj]["nombre"]));
+                select.appendChild(option);
+                
+                var estudios=document.getElementById('selectEstudios');
+                for(var i=0;i < estudios.options.length;i++){
+                    if(estudios.options[i].value === datos[obj]["idEstudio"]){
+                        estudios.options[i].remove();
+                    }
+                    
+                }
+            }
+            //console.log(document.getElementById());
+        }
+    }
 }
 function traeCursosElegidos(){
+    crearObjetoAjax();
     //trae cursos alumn bd
+    var jsonObj = JSON.stringify(alumno);
+    
+    xmlhttp.open("GET", "PHP/consultaTraeCursosElegidos.php?obj=" + jsonObj, true);
+    xmlhttp.send();
+
+	xmlhttp.onreadystatechange = function () {
+        //alert("elert en onready");
+        
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            //console.log(xmlhttp.responseText);
+            var datos = JSON.parse(xmlhttp.responseText);
+            //console.table(datos);
+            // datos.forEach(
+            //     function(curso){
+            //         console.log(curso);
+            //         var curso=document.querySelectorAll('input[id^="curso"]')[contSelectsCurso-2].value=curso.nombre;
+            //         var centro=document.querySelectorAll('input[id^="centro"]')[contSelectsCurso-2].value=curso.nombre;
+            //         var duracion=document.querySelectorAll('input[id^="duracion"]')[contSelectsCurso-2].value=1;
+            //         crearInputsCursos();
+            //     }
+            // );
+            for(var obj of datos){
+                console.log(obj);
+                var curso=document.querySelectorAll('input[id^="curso"]')[contSelectsCurso-2].value=obj.nombre;
+                    var centro=document.querySelectorAll('input[id^="centro"]')[contSelectsCurso-2].value=obj.nombre;
+                    var duracion=document.querySelectorAll('input[id^="duracion"]')[contSelectsCurso-2].value=obj.duracion;
+                    crearInputsCursos();
+            }
+            
+        }
+    }
 }
 
 function traeExperiencia(){
+    crearObjetoAjax();
     //trae input exp
+    var jsonObj = JSON.stringify(alumno);
+    
+    xmlhttp.open("GET", "PHP/consultaTraeExperiencia.php?obj=" + jsonObj, true);
+    xmlhttp.send();
+
+	xmlhttp.onreadystatechange = function () {
+        //alert("elert en onready");
+        
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            //console.log(xmlhttp.responseText);
+            var datos = JSON.parse(xmlhttp.responseText);
+            //console.table(datos);
+            console.log("obj exp en tarer exp");
+            console.log(datos);
+            for(obj of datos){
+                var especificaion=document.querySelectorAll('input[id^="especificacion"]')[contSelectsExperiencia-2].value=obj.especificacion;
+             var empresa=document.querySelectorAll('input[id^="empresa"]')[contSelectsExperiencia-2].value=obj.empresa;
+            var tiempo=document.querySelectorAll('input[id^="tiempo"]')[contSelectsExperiencia-2].value=obj.tiempo;
+            crearInputsExperiencia();
+            }
+            
+
+            
+        }
+    }
+}
+
+function alerta(texto,color){
+    //funcion que devuelve el div con alert para mostrar mensajes error exito
+    var div=document.createElement("div");
+        div.classList.add("alert");
+        div.classList.add("alert-"+color);
+        div.classList.add("w-50");
+        div.classList.add("mx-auto");
+        div.classList.add("m-2");
+        div.id="alertaDinamica";
+        div.appendChild(document.createTextNode(texto));
+
+        return div;
 }
