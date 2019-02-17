@@ -58,13 +58,7 @@ function consultaRespuesta(){
 
 }
 
-function borrarTodo(){
-    //funcion para borrar todo el contenido
-    var principal=document.getElementById("principal");
-    while(principal.firstChild){
-        principal.removeChild(principal.firstChild);
-    }
-}
+
 
 var contContraseña=1;
 function vistaInicio(){
@@ -229,7 +223,7 @@ function vistaInicio(){
                                 var form=document.createElement("form");
                                 divContenido1.appendChild(form);
                                     var fieldset=document.createElement("fieldset");
-                                    fieldset.style="background-color: #78c2ad6e !important;"
+                                    fieldset.style="background-color: #78c2ad6e !important;border-bottom-left-radius: 10px;    border-bottom-right-radius: 10px;"
                                     form.appendChild(fieldset);
                                         var divForm1=document.createElement("div");
                                             divForm1.classList.add("form-group");
@@ -461,7 +455,7 @@ function formularioBuscarAlumno(){
     }
 
 function buscarAlumno(){
-    //funcion para buscar alumno en la bd de IES
+    //funcion para buscar alumno en la BD de IES !!
     crearObjetoAjax();
         var alumno=new Object();
         alumno.nif=document.getElementById("nif").value;
@@ -513,7 +507,7 @@ function traerDatosAlumnoIes(nif){
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var datos = JSON.parse(xmlhttp.responseText);
                 console.log(datos);
-                formularioRegistroAlumnoV2(datos);
+                formularioRegistroAlumnoV2(datos,"registrar");
             }
         }
     
@@ -636,7 +630,7 @@ function formularioRegistroAlumno(datos){
         form.appendChild(botonEnvio);
 }
 
-function formularioRegistroAlumnoV2(datos){
+function formularioRegistroAlumnoV2(datos,quien){
     console.log("en form 2 inicio");
     console.log(datos);
     //funcion que pinta el formulario con todos los datos del alumno traidos de la bd
@@ -869,12 +863,8 @@ function formularioRegistroAlumnoV2(datos){
                             tituloEstudios.appendChild(document.createTextNode("Estudios"));
                     fieldset.appendChild(tituloEstudios);
                             creaSelectEstudiosAlumno();
-                            setTimeout(function(){traeEstudiosElegidos()},1000);
-                            //Promise.all(creaSelectEstudiosAlumno()).then(function(){traeEstudiosElegidos});
                             crearInputsCursos();
                             crearInputsExperiencia();
-                            setTimeout(function(){traeCursosElegidos();},1500);
-                            setTimeout(function(){traeExperiencia();},2000);
 
             var botonEnvio=document.createElement("button");
                 botonEnvio.classList.add("btn");
@@ -883,7 +873,8 @@ function formularioRegistroAlumnoV2(datos){
                 botonEnvio.classList.add("mt-4");
                 var botontxt=document.createTextNode("Enviar");
                 botonEnvio.appendChild(botontxt);
-                botonEnvio.addEventListener("click",function(){registroAlumnoAJAX()});
+                //registrar o actualizar
+                botonEnvio.addEventListener("click",function(){registroAlumnoAJAX(quien)});
                 botonEnvio.type="button";
             form.appendChild(botonEnvio);
             
@@ -1259,7 +1250,8 @@ function traeEstudios(){
         }
 }
 
-function registroAlumnoAJAX(){
+function registroAlumnoAJAX(quien){
+    // console.log(quien);
     crearObjetoAjax();
     var alumno=new Object();
     var hecho = true; //para controlar que todos los datos son correctos
@@ -1293,15 +1285,16 @@ function registroAlumnoAJAX(){
     //alumno.estudios=Array.from(document.getElementById("estudiosElegidos").options);
     var estudios=document.getElementById("estudiosElegidos");
     alumno.estudios=Array();
-    if(estudios.options.length === 1){
-        hecho=false;
-        alert("Debes elegir al menos un estudio");
+    if(quien === "registrar"){
+        if(estudios.options.length === 1){
+            hecho=false;
+            alert("Debes elegir al menos un estudio");
+        }
     }
     for(var i=0;i < estudios.options.length;i++){
         if(estudios.options[i].value != "x"){
             alumno.estudios.push(estudios.options[i].value);
         }
-        
     }
 
     alumno.cursos=Array();
@@ -1355,8 +1348,12 @@ function registroAlumnoAJAX(){
     var jsonObj = JSON.stringify(alumno);
     
     if(hecho){
-
-    xmlhttp.open("GET", "PHP/insertarDatosRegistroAlumno.php?obj="+ jsonObj, true);
+    if(quien === "registrar"){
+        xmlhttp.open("GET", "PHP/insertarDatosRegistroAlumno.php?obj="+ jsonObj, true);
+    }else{
+        xmlhttp.open("GET", "PHP/insertarDatosActualizadosAlumno.php?obj="+ jsonObj, true);
+    }
+    
     /*Mandamos al PHP encargado de traer los datos, el valor de referencia */
     xmlhttp.send();
 
@@ -1372,14 +1369,25 @@ function registroAlumnoAJAX(){
 
             var padre=document.getElementById("principal");
             borrarTodo();
-                if(datos==1){
-                    padre.appendChild(alerta("Alumno registrado con éxito, en 5 segundos le redirigimos al inicio","info"));
-                    setTimeout(function(){ borrarTodo();vistaInicio(); contSelectsCurso=1;contSelectsExperiencia=1}, 5000);
+                if(quien === "registar"){
+                    if(datos==1){
+                        padre.appendChild(alerta("Alumno registrado con éxito, en 5 segundos le redirigimos al inicio","info"));
+                        setTimeout(function(){ borrarTodo();vistaInicio(); contSelectsCurso=1;contSelectsExperiencia=1}, 5000);
+                    }else{
+                       
+                        padre.appendChild(alerta("Alumno no registrado, inténtelo de nuevo. En 5 segundos le redirigimos al formulario de inicio.","danger"));
+                        setTimeout(function(){ borrarTodo();vistaInicio(); contSelectsCurso=1;contSelectsExperiencia=1}, 5000);
+                    }
                 }else{
-                   
-                    padre.appendChild(alerta("Alumno no registrado, inténtelo de nuevo. En 5 segundos le redirigimos al formulario de inicio.","danger"));
-                    setTimeout(function(){ borrarTodo();vistaInicio(); contSelectsCurso=1;contSelectsExperiencia=1}, 5000);
+                    if(datos > 1){
+                        padre.appendChild(alerta("Alumno actualizado con éxito, en 5 segundos le redirigimos al inicio","info"));
+                        setTimeout(function(){ borrarTodo();vistaAlumno(); contSelectsCurso=1;contSelectsExperiencia=1}, 5000);
+                    }else{
+                        padre.appendChild(alerta("Alumno no actualizado, inténtelo de nuevo. En 5 segundos le redirigimos al formulario de inicio.","danger"));
+                        setTimeout(function(){ borrarTodo();vistaAlumno(); contSelectsCurso=1;contSelectsExperiencia=1}, 5000);
+                    }
                 }
+                
             
         }
     }
@@ -1439,7 +1447,7 @@ function vistaAlumno(){
     //crear tanto input curso exp como tenga
     console.log("alumno bolsa");
     console.log(alumno);
-    formularioRegistroAlumnoV2(alumno);
+    formularioRegistroAlumnoV2(alumno,"actualizar");
 }
 
 function traeEstudiosElegidos(){
@@ -1546,16 +1554,3 @@ function traeExperiencia(){
     }
 }
 
-function alerta(texto,color){
-    //funcion que devuelve el div con alert para mostrar mensajes error exito
-    var div=document.createElement("div");
-        div.classList.add("alert");
-        div.classList.add("alert-"+color);
-        div.classList.add("w-50");
-        div.classList.add("mx-auto");
-        div.classList.add("m-2");
-        div.id="alertaDinamica";
-        div.appendChild(document.createTextNode(texto));
-
-        return div;
-}
