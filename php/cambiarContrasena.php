@@ -9,7 +9,7 @@ if($quien == "empresa"){
     $resultado=$conexion->query($orden);
     if($conexion->affected_rows == 1){
         $orden="UPDATE empresa set contrasenaTemporal='N' where cif='".$obj->cif."'";
-    $resultado=$conexion->query($orden);
+        $resultado=$conexion->query($orden);
         if($conexion->affected_rows == 1){
             echo json_encode(1);
         }else{

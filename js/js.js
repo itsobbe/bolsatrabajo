@@ -1,5 +1,5 @@
-var xmlhttp = new XMLHttpRequest();
-
+// var xmlhttp = new XMLHttpRequest();
+var xmlhttp;
 var inicio=new Object();
 inicio.titulo="Bolsa de trabajo Bolsawa";
 inicio.card={
@@ -35,6 +35,7 @@ function crearObjetoAjax(){
 }
 
 function consultaRespuesta(){
+    crearObjetoAjax();
     //plantilla ajax
     var jsonObj = JSON.stringify();
     
@@ -1439,12 +1440,24 @@ function loginAlumno(){
 function vistaAlumno(){
     //vista que ve el alumno cuando logueado
     borrarTodo();
+    if(document.getElementById('buscarNav') === null){
+        var nav=document.getElementById('nav');
+        var boton1=document.createElement('button');
+            boton1.classList.add('btn');
+            boton1.classList.add('btn-secondary');
+            boton1.id="buscarNav";
+            boton1.appendChild(document.createTextNode('Modificar datos'));
+            boton1.addEventListener('click',function(){formularioRegistroAlumnoV2(alumno,"actualizar")});
+        nav.appendChild(boton1);
+        var boton1=document.createElement('button');
+            boton1.classList.add('btn');
+            boton1.classList.add('btn-secondary');
+            boton1.id="buscarNav";
+            boton1.appendChild(document.createTextNode('Cambiar contraseña'));
+            boton1.addEventListener('click',function(){generaContrasenaTemporal("alumno",alumno)});
+        nav.appendChild(boton1);
+    }
 
-    //idea llamar al formulario registro con titulo modificar datos
-    //en funcion formulario poner if y mandar a traves de funcion que tipo de form quiero
-    //si registro boton lleva a ajax insert... si modificar ajax lleva a modificar
-    //problema: hay que utilizar otra funcion que cargue los estudios que ya se tienen en select estudios elegidos
-    //crear tanto input curso exp como tenga
     console.log("alumno bolsa");
     console.log(alumno);
     formularioRegistroAlumnoV2(alumno,"actualizar");
@@ -1553,4 +1566,3 @@ function traeExperiencia(){
         }
     }
 }
-

@@ -1,6 +1,5 @@
-
+var xmlhttp;
 function crearObjetoAjax(){
-
     if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp = new XMLHttpRequest();
     } else { // code for IE6, IE5
@@ -29,8 +28,6 @@ function consultaRespuesta(){
             
         }
     }
-
-    
 }
 
 function formularioRegistroEmpresa(quien){
@@ -145,8 +142,6 @@ function formularioRegistroEmpresa(quien){
 
 function registroEmpresa(quien){
         //utilizare esta funcion para registro y actualizacion mandandole quien soy por var
-
-        //me ha ido sin esto
         crearObjetoAjax();  
 
         var empresa=new Object();
@@ -399,9 +394,11 @@ function solicitarDatosAlumnos(){
 
 function traerPerfil(){
     //trae los estudios disponibles
-
+    crearObjetoAjax();
     var jsonObj = JSON.stringify();
     
+    xmlhttp.open("GET", "PHP/consultaPerfiles.php", true);
+    xmlhttp.send();
 	xmlhttp.onreadystatechange = function () {
         //alert("elert en onready");
         
@@ -424,11 +421,11 @@ function traerPerfil(){
         }
     }
 
-    xmlhttp.open("GET", "PHP/consultaPerfiles.php", true);
-    xmlhttp.send();
+
 }
 
 function buscarAlumnos(){
+    crearObjetoAjax();
     //funcion
     var alumnoobj=new Object();
         alumnoobj.perfil=document.getElementById('perfil').value;
@@ -517,7 +514,7 @@ function buscarAlumnos(){
 //guardar el obj empresa logeado
 var empresa=new Object();
 function loginEmpresa(){
-
+    crearObjetoAjax();
     var usuario=new Object();
     usuario.contrasena=document.getElementById('contrasena1').value;
     usuario.cif=document.getElementById('cif').value;

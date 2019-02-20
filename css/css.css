@@ -18,6 +18,11 @@ body {
     position: relative;
   }
 
+.bordesRedondos{
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
   @media print {
     .tabladinamica {
         background-color: white;
@@ -31,4 +36,11 @@ body {
         font-size: 14px;
         line-height: 18px;
     }
+}
+
+.tablaDinamicaAdministrador tbody tr:first-child td{
+    background-color: #497a6d !important;
+}
+.tablaDinamicaAdministrador{
+  min-width: 600px;
 }
