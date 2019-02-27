@@ -5,4 +5,10 @@
 
     $orden="INSERT INTO empleadora VALUES(null,'$alumno->dni','$empresa->cif',curdate())";
     $resultado=$conexion->query($orden);
-    echo json_encode($conexion->affected_rows);
+    if($conexion->affected_rows == 1){
+        $resultadoActualizar=$conexion->query("update alumnobolsa set disponibilidad='N' where dni='$alumno->dni'");
+        if($conexion->affected_rows == 1){
+            echo json_encode(1);
+        }else echo json_encode(-1);
+    }else echo json_encode(-1);
+    

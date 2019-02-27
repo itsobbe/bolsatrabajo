@@ -10,7 +10,7 @@
     include_once 'generaContrasena.php';
     $contrasena=generar(10);
     //registramos
-    $orden="INSERT INTO empresa VALUES(null,'$obj->nombre','$obj->cif','$obj->correo',$obj->telefono,'$contrasena','S')";
+    $orden="INSERT INTO empresa VALUES(null,'$obj->nombre','$obj->cif','$obj->correo',$obj->telefono,'$contrasena','S',curdate())";
     $resultado=$conexion->query($orden);
 
     $hecho=false;

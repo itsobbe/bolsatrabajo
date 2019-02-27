@@ -30,7 +30,6 @@ function consultaRespuesta(){
     }
 }
 function loginAdministrador(){
-    alert("estoy login administrado");
     //ajax para hacer login admin
     crearObjetoAjax();
     var administrador=new Object();
@@ -65,42 +64,120 @@ function vistaAdministrador(){
     borrarTodo();
     if(document.getElementById('buscarNav') === null){
         var nav=document.getElementById('nav');
-        var boton1=document.createElement('button');
-            boton1.classList.add('btn');
-            boton1.classList.add('btn-secondary');
-            boton1.id="buscarNav";
-            boton1.appendChild(document.createTextNode('Buscar alumno'));
-            boton1.addEventListener('click',function(){buscarAlumnoAdministradorFormulario()});
-        nav.appendChild(boton1);
-        var boton1=document.createElement('button');
-            boton1.classList.add('btn');
-            boton1.classList.add('btn-secondary');
-            boton1.id="contratarNav";
-            boton1.appendChild(document.createTextNode('Buscar empresa'));
-            boton1.addEventListener('click',function(){buscarEmpresaAdministradorFormulario()});
-        nav.appendChild(boton1);
+        // var boton1=document.createElement('button');
+        //     boton1.classList.add('btn');
+        //     boton1.classList.add('btn-secondary');
+        //     boton1.id="buscarNav";
+        //     boton1.appendChild(document.createTextNode('Buscar alumno'));
+        //     boton1.addEventListener('click',function(){buscarAlumnoAdministradorFormulario()});
+        // nav.appendChild(boton1);
+        // var boton1=document.createElement('button');
+        //     boton1.classList.add('btn');
+        //     boton1.classList.add('btn-secondary');
+        //     boton1.id="contratarNav";
+        //     boton1.appendChild(document.createTextNode('Buscar empresa'));
+        //     boton1.addEventListener('click',function(){buscarEmpresaAdministradorFormulario()});
+        // nav.appendChild(boton1);
         var boton1=document.createElement('button');
             boton1.classList.add('btn');
             boton1.classList.add('btn-secondary');
             boton1.id="contratarNav";
             boton1.appendChild(document.createTextNode('Actualizar base datos'));
-            boton1.addEventListener('click',function(){});
+            boton1.addEventListener('click',function(){actualizarBaseDatos()});
         nav.appendChild(boton1);
         var boton1=document.createElement('button');
             boton1.classList.add('btn');
             boton1.classList.add('btn-secondary');
-            boton1.id="modificarContrasena";
-            boton1.appendChild(document.createTextNode('Listar alumnos'));
-            boton1.addEventListener('click',function(){listarAdministradorFormulario("alumno")});
+            boton1.id="contratarNav";
+            boton1.appendChild(document.createTextNode('Borrar'));
+            boton1.addEventListener('click',function(){borrarDeBaseDatosFormulario()});
         nav.appendChild(boton1);
-        var boton1=document.createElement('button');
-            boton1.classList.add('btn');
-            boton1.classList.add('btn-secondary');
-            boton1.id="modificarContrasena";
-            boton1.appendChild(document.createTextNode('Listar empresas'));
-            boton1.addEventListener('click',function(){listarAdministradorFormulario("empresa")});
-        nav.appendChild(boton1);
-    }
+        // var boton1=document.createElement('button');
+        //     boton1.classList.add('btn');
+        //     boton1.classList.add('btn-secondary');
+        //     boton1.id="modificarContrasena";
+        //     boton1.appendChild(document.createTextNode('Listar alumnos'));
+        //     boton1.addEventListener('click',function(){listarAdministradorFormulario("alumno")});
+        // nav.appendChild(boton1);
+        // var boton1=document.createElement('button');
+        //     boton1.classList.add('btn');
+        //     boton1.classList.add('btn-secondary');
+        //     boton1.id="modificarContrasena";
+        //     boton1.appendChild(document.createTextNode('Listar empresas'));
+        //     boton1.addEventListener('click',function(){listarAdministradorFormulario("empresa")});
+        // nav.appendChild(boton1);
+
+        //boton1
+        var divDropDown=document.createElement('div');
+        divDropDown.classList.add('dropdown');
+        var buttonDropdown=document.createElement('button');
+            buttonDropdown.classList.add('btn');
+            buttonDropdown.classList.add('btn-secondary');
+            buttonDropdown.classList.add('dropdown-toggle');
+            buttonDropdown.type="button"
+            buttonDropdown.id="dropdownDinamico";
+            buttonDropdown.setAttribute("data-toggle","dropdown");
+            buttonDropdown.setAttribute("aria-haspopup","true");
+            buttonDropdown.setAttribute("aria-expanded","false");
+            buttonDropdown.appendChild(document.createTextNode('Buscar usuario'));
+        divDropDown.appendChild(buttonDropdown);
+            var divItems=document.createElement('div');
+                divItems.classList.add('dropdown-menu');
+                divItems.setAttribute("aria-labelledby","dropdownDinamico");
+        divDropDown.appendChild(divItems);
+                //items
+                var item1=document.createElement('a');
+                    item1.classList.add('dropdown-item');
+                    item1.href="#";
+                    item1.appendChild(document.createTextNode('Buscar alumno'));
+                    item1.addEventListener('click',function(){buscarAlumnoAdministradorFormulario()});
+                divItems.appendChild(item1);
+                var item1=document.createElement('a');
+                    item1.classList.add('dropdown-item');
+                    item1.href="#";
+                    item1.appendChild(document.createTextNode('Buscar empresa'));
+                    item1.addEventListener('click',function(){buscarEmpresaAdministradorFormulario()});
+                divItems.appendChild(item1);
+        var padre=document.getElementById('nav');
+            padre.appendChild(divDropDown);
+
+            //boton2 listar
+            var divDropDown=document.createElement('div');
+        divDropDown.classList.add('dropdown');
+        var buttonDropdown=document.createElement('button');
+            buttonDropdown.classList.add('btn');
+            buttonDropdown.classList.add('btn-secondary');
+            buttonDropdown.classList.add('dropdown-toggle');
+            buttonDropdown.type="button"
+            buttonDropdown.id="dropdownDinamico";
+            buttonDropdown.setAttribute("data-toggle","dropdown");
+            buttonDropdown.setAttribute("aria-haspopup","true");
+            buttonDropdown.setAttribute("aria-expanded","false");
+            buttonDropdown.appendChild(document.createTextNode('Listar usuarios'));
+        divDropDown.appendChild(buttonDropdown);
+            var divItems=document.createElement('div');
+                divItems.classList.add('dropdown-menu');
+                divItems.setAttribute("aria-labelledby","dropdownDinamico");
+        divDropDown.appendChild(divItems);
+                //items
+                var item1=document.createElement('a');
+                    item1.classList.add('dropdown-item');
+                    item1.href="#";
+                    item1.appendChild(document.createTextNode('Listar alumnos'));
+                    item1.addEventListener('click',function(){listarAdministradorFormulario("alumno")});
+                divItems.appendChild(item1);
+                var item1=document.createElement('a');
+                    item1.classList.add('dropdown-item');
+                    item1.href="#";
+                    item1.appendChild(document.createTextNode('Listar empresas'));
+                    item1.addEventListener('click',function(){listarAdministradorFormulario("empresa")});
+                divItems.appendChild(item1);
+        var padre=document.getElementById('nav');
+            padre.appendChild(divDropDown);
+        }
+
+
+
     buscarAlumnoAdministradorFormulario();
 }
 
@@ -124,7 +201,10 @@ function buscarAlumnoAdministradorFormulario(){
             var col=document.createElement("col");
                 col.classList.add("col");
             row.appendChild(col);
-    
+            colInicioTitulo=document.createElement("h4");
+            var colInicioTituloTexto=document.createTextNode("¿De qué alumno quieres ver información?");
+            colInicioTitulo.appendChild(colInicioTituloTexto);
+            col.appendChild(colInicioTitulo);
     //formulario
     var form=document.createElement("form");
         col.appendChild(form);
@@ -340,7 +420,10 @@ function buscarEmpresaAdministradorFormulario(){
             var col=document.createElement("col");
                 col.classList.add("col");
             row.appendChild(col);
-    
+            colInicioTitulo=document.createElement("h4");
+            var colInicioTituloTexto=document.createTextNode("¿De qué empresa quieres ver información?");
+            colInicioTitulo.appendChild(colInicioTituloTexto);
+            col.appendChild(colInicioTitulo);
     //formulario
     var form=document.createElement("form");
         col.appendChild(form);
@@ -489,6 +572,7 @@ function listarAdministradorFormulario(quien){
                     row.appendChild(col);
                         //creamos el select de perfil
                         var label=document.createElement("label");
+                            label.classList.add('h4');
                             if(quien === "empresa"){
                                 label.appendChild(document.createTextNode("¿Qué empresa quiere ver por solicitud de perfil?"));
                             }else label.appendChild(document.createTextNode("¿Qué perfil quiere listar de alumnos activos?"));
@@ -548,24 +632,178 @@ function buscarActivosPerfilAdministrador(quien){
             if(datos !== -1){
                 if(document.getElementById("tablaDinamica")){document.getElementById("tablaDinamica").parentNode.remove()}
                 if(document.getElementById("alertaDinamica")){document.getElementById("alertaDinamica").remove()}
-                
+                var existeboton=document.getElementById('botonSacarPdf');
+                var existeimpreso=document.getElementById('botonImprimir');
+                if(existeboton){
+                    existeboton.remove();
+                    existeimpreso.remove();
+                }
                 var div=document.createElement('div');
+                    div.id="divTabla";
                     div.classList.add('row');
                     div.classList.add('d-flex');
                     div.classList.add('justify-content-center');
                     div.classList.add('text-center');
                     div.classList.add('mt-3');
+                    
             padre.appendChild(div);
             div.appendChild(creaTabla(datos,"tablaDinamicaAdministrador"));
+
             }else{
                 if(document.getElementById("alertaDinamica")){document.getElementById("alertaDinamica").remove()}
                 if(document.getElementById("tablaDinamica")){document.getElementById("tablaDinamica").parentNode.remove()}
                 padre.appendChild(alerta("No hay datos para mostrar","info"));
             }
-            
+            if(document.getElementById("tablaDinamica")){
+                    //creamos botones
+                    var sacaPdfboton=document.createElement('button');
+                        sacaPdfboton.appendChild(document.createTextNode('Sacar pdf'));
+                        sacaPdfboton.classList.add('btn');
+                        sacaPdfboton.classList.add('btn-primary');
+                        sacaPdfboton.classList.add('d-flex');
+                        sacaPdfboton.classList.add('justify-content-center');
+                        sacaPdfboton.classList.add('mx-auto');
+                        sacaPdfboton.addEventListener('click',function(){sacaTablapdf()});
+                        sacaPdfboton.id="botonSacarPdf";
+                        padre.appendChild(sacaPdfboton);
+                    // boton imprimir
+                    var imprimirBoton=document.createElement('button');
+                        imprimirBoton.appendChild(document.createTextNode('Imprimir listado'));
+                        imprimirBoton.classList.add('btn');
+                        imprimirBoton.classList.add('btn-primary');
+                        imprimirBoton.classList.add('d-flex');
+                        imprimirBoton.classList.add('justify-content-center');
+                        imprimirBoton.classList.add('mx-auto');
+                        imprimirBoton.classList.add('mt-2');
+                        imprimirBoton.addEventListener('click',function(){imprimirElemento('divTabla')});
+                        imprimirBoton.id="botonImprimir";
+                        padre.appendChild(imprimirBoton);
+                }
             
         }
     }
 
 
+}
+
+function actualizarBaseDatos(){
+    //funcion que envía correos a usuarios inactivos
+    crearObjetoAjax();
+    var jsonObj = JSON.stringify();
+    
+    xmlhttp.open("GET", "php/enviarCorreosUsuariosInactivos.php", true);
+    xmlhttp.send();
+
+	xmlhttp.onreadystatechange = function () {
+        //alert("elert en onready");
+        
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+            if(document.getElementById('alertaDinamica')){document.getElementById('alertaDinamica').remove()}
+
+            //console.log(xmlhttp.responseText);
+            var datos = JSON.parse(xmlhttp.responseText);
+            console.table(datos);
+
+            var padre=document.getElementById("principal");
+            if(datos === 1){
+                borrarTodo();
+                padre.appendChild(alerta("Base de datos actualizada correctamente, enviados correos a usuarios inactivos","info"));
+            }else{
+                borrarTodo();
+                padre.appendChild(alerta("Base de datos no actualizada","danger"));
+            }
+            
+        }
+    }
+
+}
+
+function borrarDeBaseDatosFormulario(){
+    //
+    borrarTodo();
+
+    var padre=document.getElementById("principal");
+    var container=document.createElement("div");
+        container.classList.add("container");
+        container.classList.add("d-flex");
+        container.classList.add("flex-column");
+        container.classList.add("align-items-center");
+        container.style="max-width:85%;min-width:85%";
+        
+
+    padre.appendChild(container);
+        var row=document.createElement("div");
+        row.classList.add("row");
+        row.classList.add("justify-content-center");
+        container.appendChild(row);
+            var col=document.createElement("col");
+                col.classList.add("col");
+            row.appendChild(col);
+            colInicioTitulo=document.createElement("h2");
+            var colInicioTituloTexto=document.createTextNode("¿Qué usuario quieres borrar?");
+            colInicioTitulo.appendChild(colInicioTituloTexto);
+            col.appendChild(colInicioTitulo);
+    //formulario
+    var form=document.createElement("form");
+        col.appendChild(form);
+            var fieldset=document.createElement("fieldset");
+            form.appendChild(fieldset);
+                var divForm1=document.createElement("div");
+                    divForm1.classList.add("form-group");
+                fieldset.appendChild(divForm1);
+
+                //nif laumno
+                    var label=document.createElement("label");
+                    label.for="documento";
+                        var labelTxt=document.createTextNode("DNI o CIF");
+                    label.appendChild(labelTxt);
+                    divForm1.appendChild(label);
+                        var input=document.createElement("input");
+                            input.type="text";
+                            input.classList.add("form-control");
+                            input.id="documento";
+                            input.placeholder="Escriba DNI o CIF";
+                    divForm1.appendChild(input);
+
+        var botonEnvio=document.createElement("button");
+            botonEnvio.classList.add("btn");
+            botonEnvio.classList.add("btn-block");
+            botonEnvio.classList.add("btn-secondary");
+            var botontxt=document.createTextNode("Enviar");
+            botonEnvio.appendChild(botontxt);
+            botonEnvio.type="button";
+            //botonEnvio.addEventListener('click',function(){registroEmpresa()});
+             botonEnvio.addEventListener('click',function(){borrarDeBaseDatosAjax()});
+
+            
+        form.appendChild(botonEnvio);
+
+}
+function borrarDeBaseDatosAjax(){
+    crearObjetoAjax();
+    var usuario=new Object();
+        usuario.documento=document.getElementById('documento').value;
+    var jsonObj = JSON.stringify(usuario);
+    xmlhttp.open("GET", "php/borrarUsuarioBaseDatos.php?obj=" + jsonObj, true);
+    xmlhttp.send();
+
+	xmlhttp.onreadystatechange = function () {
+        //alert("elert en onready");
+        if(document.getElementById('alertaDinamica')){document.getElementById('alertaDinamica').remove()}
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            //console.log(xmlhttp.responseText);
+            var datos = JSON.parse(xmlhttp.responseText);
+            console.table(datos);
+
+            var padre=document.getElementById("principal");
+
+            if(datos === 1){
+                padre.appendChild(alerta("Se ha borrado correctamente","info"));
+            }else{
+                padre.appendChild(alerta("No se ha borrado correctamente","danger"));
+            }
+            
+        }
+    }
 }

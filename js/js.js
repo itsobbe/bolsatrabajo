@@ -842,7 +842,7 @@ function formularioRegistroAlumnoV2(datos,quien){
                             //columna 3
                             var col=document.createElement("div");
                             col.classList.add("col");
-                        row.appendChild(col);
+                            row.appendChild(col);
                             //check cambiar permanente si o no
                             var viajarCheck=document.createElement("div");
                                 viajarCheck.classList.add("form-check");
@@ -859,6 +859,26 @@ function formularioRegistroAlumnoV2(datos,quien){
                                         labelCheck.appendChild(inputCheck);
                                     var txtLabel=document.createTextNode("Disponibilidad para trabajo permanente");
                                     labelCheck.appendChild(txtLabel);
+                            //columna 4
+                            var col=document.createElement("div");
+                                col.classList.add("col");
+                            row.appendChild(col);
+                                //check trabajar si no
+                                var viajarCheck=document.createElement("div");
+                                    viajarCheck.classList.add("form-check");
+                                    viajarCheck.classList.add("mt-3");
+                                    col.appendChild(viajarCheck);
+                                    var labelCheck=document.createElement("label");
+                                        labelCheck.classList.add("form-check-label");
+                                        viajarCheck.appendChild(labelCheck);
+                                        var inputCheck=document.createElement("input");
+                                            inputCheck.classList.add("form-check-input");
+                                            inputCheck.type="checkbox";
+                                            inputCheck.id="trabajar";
+                                            inputCheck.setAttribute("checked","");
+                                            labelCheck.appendChild(inputCheck);
+                                        var txtLabel=document.createTextNode("Disponibilidad para trabajar");
+                                        labelCheck.appendChild(txtLabel);
 
                         var tituloEstudios=document.createElement("h3");
                             tituloEstudios.appendChild(document.createTextNode("Estudios"));
@@ -866,7 +886,7 @@ function formularioRegistroAlumnoV2(datos,quien){
                             creaSelectEstudiosAlumno();
                             crearInputsCursos();
                             crearInputsExperiencia();
-
+                            traeEstudiosElegidos();
             var botonEnvio=document.createElement("button");
                 botonEnvio.classList.add("btn");
                 botonEnvio.classList.add("btn-block");
@@ -1282,6 +1302,11 @@ function registroAlumnoAJAX(quien){
         alumno.permanente="S";
     }else alumno.permanente="N";
     
+    alumno.trabajar="";
+    var trabajar=document.getElementById("trabajar").checked;
+    if(trabajar == true){
+        alumno.trabajar="S";
+    }else alumno.trabajar="N"
     //arreglar, con arra.from .options me trae un array de options
     //alumno.estudios=Array.from(document.getElementById("estudiosElegidos").options);
     var estudios=document.getElementById("estudiosElegidos");
@@ -1293,7 +1318,7 @@ function registroAlumnoAJAX(quien){
         }
     }
     for(var i=0;i < estudios.options.length;i++){
-        if(estudios.options[i].value != "x"){
+        if(estudios.options[i].value !== "x" && estudios.options[i].id !== "disabled"){
             alumno.estudios.push(estudios.options[i].value);
         }
     }
@@ -1370,8 +1395,8 @@ function registroAlumnoAJAX(quien){
 
             var padre=document.getElementById("principal");
             borrarTodo();
-                if(quien === "registar"){
-                    if(datos==1){
+                if(quien === "registrar"){
+                    if(datos===1){
                         padre.appendChild(alerta("Alumno registrado con éxito, en 5 segundos le redirigimos al inicio","info"));
                         setTimeout(function(){ borrarTodo();vistaInicio(); contSelectsCurso=1;contSelectsExperiencia=1}, 5000);
                     }else{
@@ -1380,7 +1405,7 @@ function registroAlumnoAJAX(quien){
                         setTimeout(function(){ borrarTodo();vistaInicio(); contSelectsCurso=1;contSelectsExperiencia=1}, 5000);
                     }
                 }else{
-                    if(datos > 1){
+                    if(datos === 1){
                         padre.appendChild(alerta("Alumno actualizado con éxito, en 5 segundos le redirigimos al inicio","info"));
                         setTimeout(function(){ borrarTodo();vistaAlumno(); contSelectsCurso=1;contSelectsExperiencia=1}, 5000);
                     }else{
@@ -1464,20 +1489,27 @@ function vistaAlumno(){
 }
 
 function traeEstudiosElegidos(){
-    crearObjetoAjax();
+    // crearObjetoAjax();
     //funcion que carga en select estudios elegidos los que ya tiene el alumno
-    
+    var ajax;
+    if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+        ajax = new XMLHttpRequest();
+    } else { // code for IE6, IE5
+        ajax = new ActiveXObject("Microsoft.XMLHTTP");
+        /*Como el explorer va por su cuenta, el objeto es un ActiveX */
+    }
+
     var obj = JSON.stringify(alumno);
 
-    xmlhttp.open("GET", "PHP/consultaEstudiosAlumno.php?obj="+obj, true);
-    xmlhttp.send();
+    ajax.open("GET", "PHP/consultaEstudiosAlumno.php?obj="+obj, true);
+    ajax.send();
 
-	xmlhttp.onreadystatechange = function () {
+	ajax.onreadystatechange = function () {
         //alert("elert en onready");
         
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        if (ajax.readyState == 4 && ajax.status == 200) {
             //console.log(xmlhttp.responseText);
-            var datos = JSON.parse(xmlhttp.responseText);
+            var datos = JSON.parse(ajax.responseText);
             //console.table(datos);
 
             var padre=document.getElementById("principal");
@@ -1487,6 +1519,9 @@ function traeEstudiosElegidos(){
                 var option=document.createElement("option");
                     option.value=datos[obj]["idEstudio"];
                     option.appendChild(document.createTextNode(datos[obj]["nombre"]));
+                    option.disabled="disabled";
+                    option.classList.add('text-danger');
+                    option.id="disabled";
                 select.appendChild(option);
                 
                 var estudios=document.getElementById('selectEstudios');

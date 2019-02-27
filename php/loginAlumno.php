@@ -9,7 +9,8 @@ include_once 'conexion.php';
 
     if($resultado->num_rows == 1){
         $obj=$resultado->fetch_object();
-
+        $orden="UPDATE alumnobolsa set ultimaConexion=curdate() where dni='$alumno->dni'";
+        $resultadoUpd=$conexion->query($orden);
         echo json_encode($obj);
     }else{
         echo json_encode(-1);

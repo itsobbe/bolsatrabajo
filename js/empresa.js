@@ -199,9 +199,7 @@ function registroEmpresa(quien){
     
         
 }
-
-function solicitarDatosAlumnos(){
-
+function vistaEmpresa(){
     if(document.getElementById('buscarNav') === null){
         var nav=document.getElementById('nav');
         var boton1=document.createElement('button');
@@ -233,8 +231,9 @@ function solicitarDatosAlumnos(){
             boton1.addEventListener('click',function(){generaContrasenaTemporal("empresa",empresa)});
         nav.appendChild(boton1);
     }
-    
-
+    solicitarDatosAlumnos();
+}
+function solicitarDatosAlumnos(){
     borrarTodo();
     //creamos el formulario para registrar
         //rellenar la interfaz de registro
@@ -541,7 +540,7 @@ function loginEmpresa(){
                     //redirigir formulario rellena temporal
                     cambiarContrasenaTemporalFormulario("empresa",empresa);
                 }else{
-                    solicitarDatosAlumnos();
+                    vistaEmpresa();
                 }
             }else{
                 alert("Error");

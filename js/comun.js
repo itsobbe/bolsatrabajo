@@ -167,9 +167,10 @@ function vistaInicio(){
                         colInicio.classList.add("col");
                         colInicio.classList.add("align-self-start");
                 row.appendChild(colInicio);
-                        colInicioTitulo=document.createElement("h2");
-                        var colInicioTituloTexto=document.createTextNode(inicio.formulario.titulo);
-                        colInicioTitulo.appendChild(colInicioTituloTexto);
+                colInicioTitulo=document.createElement("h2");
+                var colInicioTituloTexto=document.createTextNode("¿Qué tipo de usuario eres?");
+                colInicioTitulo.appendChild(colInicioTituloTexto);
+                colInicio.appendChild(colInicioTitulo);
                         var listaEnlaces=document.createElement("ul");
                             listaEnlaces.classList.add("nav");
                             listaEnlaces.classList.add("nav-tabs");
@@ -266,7 +267,7 @@ function vistaInicio(){
                                             botonEnvio.addEventListener('click',function(){cambiarContrasenaVistaInicio(event)});
                                             botonEnvio.type="button";
                                                botonEnvio.classList.add("btn");
-                                               botonEnvio.classList.add("btn-secondary");
+                                               botonEnvio.classList.add("btn-outline-secondary");
                                                botonEnvio.classList.add('btn-sm');
                                                botonEnvio.classList.add('ml-2');
                                            fieldset.appendChild(botonEnvio);
@@ -343,7 +344,7 @@ function vistaInicio(){
                                             botonEnvio.addEventListener('click',function(){cambiarContrasenaVistaInicio(event)});
                                             botonEnvio.type="button";
                                                botonEnvio.classList.add("btn");
-                                               botonEnvio.classList.add("btn-secondary");
+                                               botonEnvio.classList.add("btn-outline-secondary");
                                                botonEnvio.classList.add('btn-sm');
                                                botonEnvio.classList.add('ml-2');
                                            fieldset.appendChild(botonEnvio);
@@ -681,7 +682,7 @@ function cambiarContrasenaTemporal(quien,datos){
             if(quien === "empresa"){
                 if(datos === 1){
                     //redirigimos a interfaz
-                    solicitarDatosAlumnos();
+                    vistaEmpresa();
                 }else{
                     //alerta problema
                     alert("problema");                
@@ -805,4 +806,61 @@ function alerta(texto,color){
         div.appendChild(document.createTextNode(texto));
 
         return div;
+}
+
+function crearDropDowns(){
+    borrarTodo();
+    //le paso color, titulo
+    var divDropDown=document.createElement('div');
+        divDropDown.classList.add('dropdown');
+        var buttonDropdown=document.createElement('button');
+            buttonDropdown.classList.add('btn');
+            buttonDropdown.classList.add('btn-secondary');
+            buttonDropdown.classList.add('dropdown-toggle');
+            buttonDropdown.type="button"
+            buttonDropdown.id="dropdownDinamico";
+            buttonDropdown.setAttribute("data-toggle","dropdown");
+            buttonDropdown.setAttribute("aria-haspopup","true");
+            buttonDropdown.setAttribute("aria-expanded","false");
+            buttonDropdown.appendChild(document.createTextNode('Boton'));
+        divDropDown.appendChild(buttonDropdown);
+            var divItems=document.createElement('div');
+                divItems.classList.add('dropdown-menu');
+                divItems.setAttribute("aria-labelledby","dropdownDinamico");
+        divDropDown.appendChild(divItems);
+                var item1=document.createElement('a');
+                    item1.classList.add('dropdown-item');
+                    item1.href="#";
+                    item1.appendChild(document.createTextNode('item1'));
+                divItems.appendChild(item1);
+        var padre=document.getElementById('principal');
+            padre.appendChild(divDropDown);
+
+
+            if(document.getElementById('buscarNav') === null){
+                var divDropDown=document.createElement('div');
+                divDropDown.classList.add('dropdown');
+                var buttonDropdown=document.createElement('button');
+                    buttonDropdown.classList.add('btn');
+                    buttonDropdown.classList.add('btn-secondary');
+                    buttonDropdown.classList.add('dropdown-toggle');
+                    buttonDropdown.type="button"
+                    buttonDropdown.id="dropdownDinamico";
+                    buttonDropdown.setAttribute("data-toggle","dropdown");
+                    buttonDropdown.setAttribute("aria-haspopup","true");
+                    buttonDropdown.setAttribute("aria-expanded","false");
+                    buttonDropdown.appendChild(document.createTextNode('Boton'));
+                divDropDown.appendChild(buttonDropdown);
+                    var divItems=document.createElement('div');
+                        divItems.classList.add('dropdown-menu');
+                        divItems.setAttribute("aria-labelledby","dropdownDinamico");
+                divDropDown.appendChild(divItems);
+                        var item1=document.createElement('a');
+                            item1.classList.add('dropdown-item');
+                            item1.href="#";
+                            item1.appendChild(document.createTextNode('item1'));
+                        divItems.appendChild(item1);
+                var padre=document.getElementById('nav');
+                    padre.appendChild(divDropDown);
+                }
 }

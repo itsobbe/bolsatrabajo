@@ -3,7 +3,7 @@
     $alumno= json_decode($_REQUEST["obj"]);
 
         //actualizamos el alumno con todos los datos
-        $ordenActualizar="UPDATE alumnobolsa SET nombre='$alumno->nombre',apellido='$alumno->apellido',dirección='$alumno->direccion',correo='$alumno->email',fechaNac='$alumno->nacimiento',viajar='$alumno->viajar',cambiarResidencia='$alumno->residir', permanente='$alumno->permanente' WHERE dni='$alumno->nif'";
+        $ordenActualizar="UPDATE alumnobolsa SET nombre='$alumno->nombre',apellido='$alumno->apellido',dirección='$alumno->direccion',correo='$alumno->email',fechaNac='$alumno->nacimiento',viajar='$alumno->viajar',cambiarResidencia='$alumno->residir', permanente='$alumno->permanente',disponibilidad='$alumno->trabajar' WHERE dni='$alumno->nif'";
 
         $resultado=$conexion->query($ordenActualizar);
 
@@ -36,4 +36,4 @@
         
 
     
-        echo json_encode($conexion->affected_rows);
+        echo json_encode(1);
